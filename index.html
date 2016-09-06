@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>RF Match Example</title>
+  <meta charset="utf-8">
+  <meta name="description" content="RF Match Example">
+  <meta name="author" content="fpgafreak">
+  <meta name="generator" content="slidify" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  <link rel="stylesheet" href="libraries/frameworks/io2012/css/default.css" media="all" >
+  <link rel="stylesheet" href="libraries/frameworks/io2012/css/phone.css" 
+    media="only screen and (max-device-width: 480px)" >
+  <link rel="stylesheet" href="libraries/frameworks/io2012/css/slidify.css" >
+  <link rel="stylesheet" href="libraries/highlighters/highlight.js/css/tomorrow.css" />
+  <base target="_blank"> <!-- This amazingness opens all links in a new tab. -->  <link rel=stylesheet href="./assets/css/ribbons.css"></link>
+
+  
+  <!-- Grab CDN jQuery, fall back to local if offline -->
+  <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.7.min.js"></script>
+  <script>window.jQuery || document.write('<script src="libraries/widgets/quiz/js/jquery.js"><\/script>')</script> 
+  <script data-main="libraries/frameworks/io2012/js/slides" 
+    src="libraries/frameworks/io2012/js/require-1.0.8.min.js">
+  </script>
+  
+  
+
+</head>
+<body style="opacity: 0">
+  <slides class="layout-widescreen">
+    
+    <!-- LOGO SLIDE -->
+        <slide class="title-slide segue nobackground">
+  <hgroup class="auto-fadein">
+    <h1>RF Match Example</h1>
+    <h2>Deleloping Data Products Course Project</h2>
+    <p>fpgafreak<br/>catching X-rays at http://ssrl.slac.stanford.edu</p>
+  </hgroup>
+  <article></article>  
+</slide>
+    
+
+    <!-- SLIDES -->
+    <slide class="" id="slide-1" style="background:;">
+  <hgroup>
+    <h2>What is it all about?</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>Whenever radio frequency signals are passed from source to load, engineers try to maximize energy transer to the load. Mathematical solution for transfer equation requires that source impedance (complex frequency-dependent resitance) is equal to load impedance. If source and load impedances are not equal, matching circuit in between is required. Various techniques and software tools exist for design of optimal matching circuits.</p>
+
+<h2>What this application can do?</h2>
+
+<p>Not much. It can calculate simple 2-component matching circuit for load with real resistance lower than source resistance. Neither source or load could be resistive or capacitive. Frequency is fixed at 13.56MHz (standard frequency for high-power industrial applications). Application prints calculated values for circuit quality factor Q (measure of frequency band where matching work satisfactory with losses below certain level), component values (C and L), and provides visual presentation of matching process as a Smith chart (traditional way to graphically represent radio frequency characteristics).</p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-2" style="background:;">
+  <hgroup>
+    <h2>How does it work?</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>It uses well known equations to
+1) increase low load resistance by adding series inductor (L) and
+2) make the circuit resonant at working frequency by adding parallel capacitor (C)</p>
+
+<p>Note that Q is simply defined by a ratio of source and load resistances <code>&quot;R_s/R_l&quot;</code>. For higher ratios, Q may become too high and result in  bandwidth that is too narrow:</p>
+
+<pre><code class="r">  R_s &lt;- 100
+  R_l &lt;- 1
+  Q &lt;- sqrt(R_s/R_l - 1)
+  print(Q)
+</code></pre>
+
+<pre><code>## [1] 9.949874
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-3" style="background:;">
+  <hgroup>
+    <h2>Limitations</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>The only option to expand the bandwidth is to add ability to calculate more complicated matching cirsuits with more LC stages. In the same example, for example for number of stages <code>n = 2</code>:</p>
+
+<pre><code class="r">  R_s &lt;- 100
+  R_l &lt;- 1
+  n &lt;- 2
+  Q &lt;- sqrt((R_s/R_l)^(1/n) - 1)
+  print(Q)
+</code></pre>
+
+<pre><code>## [1] 3
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-4" style="background:;">
+  <hgroup>
+    <h2>Further development</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>Some ideas for further development:</p>
+
+<ol>
+<li><p>Add ability to specify target Q. Application should use it to determine required number of LC stages and estimate component values for each stage.</p></li>
+<li><p>Add ability to specify load capacitance or inductance. Most practical loads, like industrial plasma sources, are either capacitive or inductive in nature.</p></li>
+</ol>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+    <slide class="backdrop"></slide>
+  </slides>
+  <div class="pagination pagination-small" id='io2012-ptoc' style="display:none;">
+    <ul>
+      <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=1 title='What is it all about?'>
+         1
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=2 title='How does it work?'>
+         2
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=3 title='Limitations'>
+         3
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=4 title='Further development'>
+         4
+      </a>
+    </li>
+  </ul>
+  </div>  <!--[if IE]>
+    <script 
+      src="http://ajax.googleapis.com/ajax/libs/chrome-frame/1/CFInstall.min.js">  
+    </script>
+    <script>CFInstall.check({mode: 'overlay'});</script>
+  <![endif]-->
+</body>
+  <!-- Load Javascripts for Widgets -->
+  
+  <!-- LOAD HIGHLIGHTER JS FILES -->
+  <script src="libraries/highlighters/highlight.js/highlight.pack.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+  <!-- DONE LOADING HIGHLIGHTER JS FILES -->
+   
+  </html>

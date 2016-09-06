@@ -1,0 +1,66 @@
+---
+title       : RF Match Example
+subtitle    : Deleloping Data Products Course Project
+author      : fpgafreak
+job         : catching X-rays at http://ssrl.slac.stanford.edu
+framework   : io2012        # {io2012, html5slides, shower, dzslides, ...}
+highlighter : highlight.js  # {highlight.js, prettify, highlight}
+hitheme     : tomorrow      # 
+widgets     : []            # {mathjax, quiz, bootstrap}
+mode        : selfcontained # {standalone, draft}
+knit        : slidify::knit2slides
+
+---
+## What is it all about?
+
+Whenever radio frequency signals are passed from source to load, engineers try to maximize energy transer to the load. Mathematical solution for transfer equation requires that source impedance (complex frequency-dependent resitance) is equal to load impedance. If source and load impedances are not equal, matching circuit in between is required. Various techniques and software tools exist for design of optimal matching circuits.
+
+## What this application can do?
+
+Not much. It can calculate simple 2-component matching circuit for load with real resistance lower than source resistance. Neither source or load could be resistive or capacitive. Frequency is fixed at 13.56MHz (standard frequency for high-power industrial applications). Application prints calculated values for circuit quality factor Q (measure of frequency band where matching work satisfactory with losses below certain level), component values (C and L), and provides visual presentation of matching process as a Smith chart (traditional way to graphically represent radio frequency characteristics).
+
+---
+## How does it work?
+
+It uses well known equations to
+1) increase low load resistance by adding series inductor (L) and
+2) make the circuit resonant at working frequency by adding parallel capacitor (C)
+
+Note that Q is simply defined by a ratio of source and load resistances `"R_s/R_l"`. For higher ratios, Q may become too high and result in  bandwidth that is too narrow:
+
+```r
+  R_s <- 100
+  R_l <- 1
+  Q <- sqrt(R_s/R_l - 1)
+  print(Q)
+```
+
+```
+## [1] 9.949874
+```
+
+---
+## Limitations
+
+The only option to expand the bandwidth is to add ability to calculate more complicated matching cirsuits with more LC stages. In the same example, for example for number of stages `n = 2`:
+
+```r
+  R_s <- 100
+  R_l <- 1
+  n <- 2
+  Q <- sqrt((R_s/R_l)^(1/n) - 1)
+  print(Q)
+```
+
+```
+## [1] 3
+```
+
+---
+## Further development
+
+Some ideas for further development:
+
+1. Add ability to specify target Q. Application should use it to determine required number of LC stages and estimate component values for each stage.
+
+2. Add ability to specify load capacitance or inductance. Most practical loads, like industrial plasma sources, are either capacitive or inductive in nature.
